@@ -9,7 +9,7 @@ export async function getSettings(): Promise<Settings> {
 }
 export async function getProducts(): Promise<Product[]> {
   try {
-    const { data } = await supabase.from('products').select('*, product_images(id,url,path,position)')
+   const { data } = await supabase.from('products').select('*, product_images(*)')
       .eq('is_published', true).order('created_at', { ascending: false });
     return (data as Product[]) || [];
   } catch { return []; }
