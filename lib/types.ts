@@ -14,4 +14,5 @@ export type Settings = {
 export const DEFAULT_SETTINGS: Settings = {
   business_name: 'AJUNILO BUSINESS+', whatsapp_number: '', logo_url: null, phone: null, email: null,
   address: null, about_text: null, hero_title: null, hero_subtitle: null,
-  hero_image_url: string | null,};
+    hero_image_url: null,
+};
