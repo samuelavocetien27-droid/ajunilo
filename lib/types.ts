@@ -10,8 +10,8 @@ export type Product = {
 export type Settings = {
   business_name: string; whatsapp_number: string; logo_url: string | null; phone: string | null; email: string | null;
   address: string | null; about_text: string | null; hero_title: string | null; hero_subtitle: string | null;
-};
+  hero_image_url: string | null;};
 export const DEFAULT_SETTINGS: Settings = {
   business_name: 'AJUNILO BUSINESS+', whatsapp_number: '', logo_url: null, phone: null, email: null,
   address: null, about_text: null, hero_title: null, hero_subtitle: null,
-};
+  hero_image_url: string | null,};
