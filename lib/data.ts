@@ -3,7 +3,7 @@ import { DEFAULT_SETTINGS, Product, Settings } from './types';
 
 export async function getSettings(): Promise<Settings> {
   try {
-    const { data } = await supabase.from('site_settings').select('*').eq('id', 1).maybeSingle();
+   const { data } = await supabase.from('site_settings').select('*').limit(1).maybeSingle();
     return { ...DEFAULT_SETTINGS, ...(data || {}) };
   } catch { return DEFAULT_SETTINGS; }
 }
