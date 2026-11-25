@@ -22,14 +22,20 @@ export default async function Home() {
   return (
     <>
       <section className="relative overflow-hidden bg-ink text-white">
-        <div className="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-gold/10 blur-3xl" />
-        <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 md:grid-cols-[1.3fr_1fr] md:py-24">
-          <div>
+        {s.hero_image_url ? (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={s.hero_image_url} alt="" className="absolute inset-0 h-full w-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/80 to-ink/10" />
+          </>
+        ) : <div className="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-gold/10 blur-3xl" />}
+        <div className={`relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 md:py-28 ${s.hero_image_url ? '' : 'md:grid-cols-[1.3fr_1fr] md:py-24'}`}>
+          <div className={s.hero_image_url ? 'max-w-xl' : ''}>
             <h1 className="text-4xl font-bold leading-tight md:text-6xl">{s.hero_title || 'L’ordinateur qu’il vous faut, au prix juste.'}</h1>
-            <p className="mt-5 max-w-lg text-white/70">{s.hero_subtitle || 'Ordinateurs portables sélectionnés, caractéristiques détaillées, commande directe sur WhatsApp.'}</p>
+            <p className="mt-5 max-w-lg text-white/80">{s.hero_subtitle || 'Ordinateurs portables sélectionnés, caractéristiques détaillées, commande directe sur WhatsApp.'}</p>
             <Link href="/ordinateurs" className="btn-gold mt-8">Découvrir nos ordinateurs</Link>
           </div>
-          <div className="hidden justify-center md:flex"><div className="rounded-3xl border border-gold/30 p-14 text-gold"><Laptop size={150} strokeWidth={0.8} /></div></div>
+          {!s.hero_image_url && <div className="hidden justify-center md:flex"><div className="rounded-3xl border border-gold/30 p-14 text-gold"><Laptop size={150} strokeWidth={0.8} /></div></div>}
         </div>
       </section>
       {row('Nos meilleures offres', all.filter((p) => p.is_promo).slice(0, 4), 'Les promotions apparaîtront ici.')}
