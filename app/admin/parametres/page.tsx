@@ -23,7 +23,7 @@ export default function Settings() {
       if (up.error) return setM({ ok: false, t: 'Le logo n’a pas pu être envoyé : ' + up.error.message });
       logo_url = supabase.storage.from('products').getPublicUrl(path).data.publicUrl;
     }
-    const row: Record<string, any> = { id: 1, logo_url };
+    const row: Record<string, any> = { id: 1, logo_url, hero_image_url: f.hero_image_url || null };
     F.forEach(([k]) => (row[k] = (f[k] || '').trim() || null));
     row.business_name = row.business_name || 'AJUNILO BUSINESS+';
     row.whatsapp_number = String(row.whatsapp_number || '').replace(/\D/g, '');
@@ -39,7 +39,18 @@ export default function Settings() {
           <label key={k} className="text-sm"><span className="mb-1 block text-ink/65">{label}</span>
             {area ? <textarea rows={4} className="input" value={f[k] || ''} onChange={(e) => setF({ ...f, [k]: e.target.value })} />
               : <input className="input" value={f[k] || ''} onChange={(e) => setF({ ...f, [k]: e.target.value })} />}</label>))}
-        <div className="text-sm"><span className="mb-1 block text-ink/65">Logo</span>
+        <div className="text-sm"><span className="mb-1 block text-ink/65">Image de la page d’accueil (photo en paysage)</span>
+  {/* eslint-disable-next-line @next/next/no-img-element */}
+  {f.hero_image_url && <img src={f.hero_image_url} alt="" className="mb-2 h-28 rounded object-cover" />}
+  <input type="file" accept="image/*" onChange={async (e) => {
+    const img = e.target.files?.[0]; if (!img) return;
+    const path = `site/hero-${Date.now()}.${(img.name.split('.').pop() || 'jpg').toLowerCase()}`;
+    const up = await supabase.storage.from('products').upload(path, img, { contentType: img.type });
+    if (up.error) return setM({ ok: false, t: 'Image non envoyée : ' + up.error.message });
+    setF({ ...f, hero_image_url: supabase.storage.from('products').getPublicUrl(path).data.publicUrl });
+    setM({ ok: true, t: 'Image prête : clique sur Enregistrer.' });
+  }} />
+</div><div className="text-sm"><span className="mb-1 block text-ink/65">Logo</span>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           {logo && <img src={logo} alt="" className="mb-2 h-14 rounded" />}
           <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files?.[0] || null)} /></div>
